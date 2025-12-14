@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Lost & Found</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #473472;
+            overflow-x: hidden;
+        }
+
+        .dots-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, #87BAC3 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.15;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            border-radius: 50px;
+            box-shadow: 0 8px 32px rgba(71, 52, 114, 0.1);
+            z-index: 1000;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #473472;
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #53629E;
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #87BAC3;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 20px 60px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            color: #473472;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #53629E;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #473472;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #53629E;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(71, 52, 114, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: #87BAC3;
+            color: #ffffff;
+        }
+
+        .btn-secondary:hover {
+            background-color: #53629E;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(135, 186, 195, 0.3);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 80px;
+            padding: 0 20px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(71, 52, 114, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 48px rgba(71, 52, 114, 0.15);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #473472, #53629E);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 36px;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            color: #473472;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #53629E;
+            line-height: 1.6;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 80px;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(71, 52, 114, 0.05), rgba(135, 186, 195, 0.05));
+            border-radius: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #473472;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 18px;
+            color: #53629E;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 80px;
+            color: #53629E;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 12px 20px;
+                gap: 15px;
+            }
+
+            nav a {
+                font-size: 14px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dots-background"></div>
+
+    <nav>
+        <a href="home.html" class="active">Home</a>
+        <a href="report.html">Report Found Item</a>
+        <a href="claim.html">Search Items</a>
+        <a href="admin.html">Admin</a>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1>School Lost & Found</h1>
+            <p>Reuniting students with their lost belongings.<br>Report found items or search for your missing items with ease.</p>
+            <div class="cta-buttons">
+                <a href="report.html" class="btn btn-primary">Report Found Item</a>
+                <a href="claim.html" class="btn btn-secondary">Search for Items</a>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">📝</div>
+                <h3>Easy Reporting</h3>
+                <p>Found something? Report it quickly with our simple form and help someone find their lost item.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>Smart Search</h3>
+                <p>Search through all found items by category, location, or description to find what you're looking for.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✅</div>
+                <h3>Quick Claims</h3>
+                <p>Found your item? Submit a claim request and get in touch with the finder to retrieve your belongings.</p>
+            </div>
+        </div>
+
+        <div class="stats" id="stats">
+            <div class="stat-item">
+                <div class="stat-number" id="totalItems">0</div>
+                <div class="stat-label">Items Found</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="itemsClaimed">0</div>
+                <div class="stat-label">Items Claimed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="activeItems">0</div>
+                <div class="stat-label">Available Items</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 School Lost & Found System. Made with care for our school community.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../src/supabase.js"></script>
+    <script src="../src/home.js"></script>
+</body>
+</html>
